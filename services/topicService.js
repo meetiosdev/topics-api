@@ -24,23 +24,30 @@ class TopicService {
   }
 
   /**
-   * Get topic by ID
+   * Get topic by ID with posts
    * @param {string} topicId - Topic UUID
-   * @returns {Promise<Object|null>} Topic object or null
+   * @returns {Promise<Object|null>} Topic object with posts or null
    */
   async getTopicById(topicId) {
     try {
       logger.info(`Fetching topic by ID: ${topicId}`);
 
-      const topic = await Topic.findByTopicId(topicId);
+      const [topic, posts] = await Promise.all([
+        Topic.findByTopicId(topicId),
+        Post.getPostsByTopicId(topicId),
+      ]);
 
       if (!topic) {
         logger.warn(`Topic not found with ID: ${topicId}`);
         return null;
       }
 
-      logger.info(`Successfully fetched topic: ${topic.name}`);
-      return topic;
+      logger.info(`Successfully fetched topic: ${topic.name} with ${posts.length} posts`);
+      
+      return {
+        ...topic,
+        posts,
+      };
     } catch (error) {
       logger.error('Error fetching topic by ID:', error);
       throw error;

@@ -39,9 +39,12 @@ async function seedDatabase() {
       const filePath = path.join(topicsDir, file);
       const data = JSON.parse(await fs.readFile(filePath, 'utf8'));
 
-      console.log(`Processing ${file} with ${data.length} topics`);
+      // Extract records from the JSON structure
+      const records = data.records || [];
 
-      for (const topicData of data) {
+      console.log(`Processing ${file} with ${records.length} topics`);
+
+      for (const topicData of records) {
         const topicId = uuidv4();
 
         // Create topic
@@ -56,28 +59,81 @@ async function seedDatabase() {
 
         await topic.save();
 
-        // Create posts for this topic
-        const posts = [];
-        if (topicData.posts && topicData.posts.length > 0) {
-          for (const postData of topicData.posts) {
-            const post = new Post({
-              id: uuidv4(),
-              name: postData.name,
-              likes: postData.likes || Math.floor(Math.random() * 1000),
-              content: postData.content,
-              date: postData.date || new Date().toISOString(),
-              topicId,
-            });
-            posts.push(post);
-          }
+        // Prepare posts for this topic
+        let posts = Array.isArray(topicData.posts) ? [...topicData.posts] : [];
 
-          if (posts.length > 0) {
-            await Post.insertMany(posts);
-          }
+        // Limit to 20 posts
+        if (posts.length > 20) {
+          posts = posts.slice(0, 20);
+        }
+
+        // If less than 4, generate random posts to reach 4
+        const randomNames = [
+          'Alex Morgan', 'Jamie Lee', 'Taylor Smith', 'Jordan Kim', 'Morgan Lee',
+          'Casey Brown', 'Riley Davis', 'Skyler Wilson', 'Avery Martinez', 'Peyton Clark',
+          'Quinn Lewis', 'Drew Walker', 'Harper Young', 'Reese Hall', 'Rowan King',
+          'Sawyer Scott', 'Emerson Green', 'Finley Adams', 'Dakota Baker', 'Cameron Bell'
+        ];
+        const randomContents = [
+          'Loving the community vibes! 🌟',
+          'Just finished a great workout! 💪',
+          'Anyone up for a chat?',
+          'Learning new things every day!',
+          'What are your weekend plans?',
+          'Excited for the next big thing!',
+          'Sharing some positivity! 😊',
+          'Trying out a new recipe tonight!',
+          'Who else loves coding?',
+          'Reading a fantastic book right now!',
+          'Exploring new hobbies!',
+          'Let’s connect and share ideas!',
+          'Happy to be here!',
+          'What inspires you today?',
+          'Enjoying the little things in life.',
+          'Just started a new project!',
+          'Looking for recommendations!',
+          'Celebrating small wins!',
+          'Grateful for this space.',
+          'Stay awesome, everyone!'
+        ];
+        function getRandomItem(arr) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+        function getRandomLikes() {
+          return Math.floor(Math.random() * 500) + 1;
+        }
+        function getRandomDate() {
+          const now = new Date();
+          const daysAgo = Math.floor(Math.random() * 30);
+          now.setDate(now.getDate() - daysAgo);
+          return now.toISOString();
+        }
+
+        while (posts.length < 4) {
+          posts.push({
+            name: getRandomItem(randomNames),
+            likes: getRandomLikes(),
+            content: getRandomItem(randomContents),
+            date: getRandomDate(),
+          });
+        }
+
+        // Create Post documents
+        const postDocs = posts.map(postData => new Post({
+          id: uuidv4(),
+          name: postData.name,
+          likes: postData.likes || getRandomLikes(),
+          content: postData.content,
+          date: postData.date || getRandomDate(),
+          topicId,
+        }));
+
+        if (postDocs.length > 0) {
+          await Post.insertMany(postDocs);
         }
 
         console.log(
-          `Created topic ${topicId} (${topicData.name}) with ${posts.length} posts`
+          `Created topic ${topicId} (${topicData.name}) with ${postDocs.length} posts`
         );
       }
     }
