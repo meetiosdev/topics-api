@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB Connection
-const MONGODB_URI = 'mongodb+srv://swarajmeet:evN1UPsMV2ibVb9S@cluster0.wr66lik.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://meetheiosdeveloper:GODqKHfZcCnSC7pX@cluster0.olgfgyz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
