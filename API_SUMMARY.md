@@ -14,6 +14,7 @@ Successfully created a complete Node.js + MongoDB backend API for managing topic
 ## 🏗️ Architecture
 
 ### Project Structure
+
 ```
 topicsApi/
 ├── app.js                 # Main Express application
@@ -40,6 +41,7 @@ topicsApi/
 ### Database Schema
 
 #### Topic Schema
+
 ```javascript
 {
   id: Number,           // Unique topic ID (1-200)
@@ -51,6 +53,7 @@ topicsApi/
 ```
 
 #### Post Schema
+
 ```javascript
 {
   id: String,           // Unique post ID (e.g., "post_001")
@@ -64,36 +67,47 @@ topicsApi/
 ## 🚀 API Endpoints
 
 ### 1. Health Check
+
 ```
 GET /health
 ```
+
 **Response**: Server status and timestamp
 
 ### 2. Get Paginated Topics
+
 ```
 GET /topics?page=1&limit=10
 ```
+
 **Features**:
+
 - Pagination support (page, limit parameters)
 - Returns topics with populated posts
 - Includes pagination metadata
 - Default: 10 topics per page
 
 ### 3. Get Topic Posts
+
 ```
 GET /topics/:id/posts
 ```
+
 **Features**:
+
 - Returns all posts for a specific topic
 - Includes topic metadata
 - Post count information
 - Error handling for non-existent topics
 
 ### 4. Get Topic by ID
+
 ```
 GET /topics/:id
 ```
+
 **Features**:
+
 - Returns complete topic information
 - Includes all associated posts
 - Error handling for non-existent topics
@@ -130,6 +144,7 @@ All API endpoints tested successfully:
 ## 🎨 Data Source
 
 The API uses your existing JSON files from the `Topics/` directory:
+
 - **10 JSON files** processed
 - **200 unique topics** created
 - **1,400 unique posts** with realistic content
@@ -138,16 +153,19 @@ The API uses your existing JSON files from the `Topics/` directory:
 ## 🚀 Quick Start
 
 1. **Install Dependencies**:
+
    ```bash
    npm install
    ```
 
 2. **Seed Database**:
+
    ```bash
    npm run seed
    ```
 
 3. **Start Server**:
+
    ```bash
    npm start
    ```
@@ -160,16 +178,19 @@ The API uses your existing JSON files from the `Topics/` directory:
 ## 📝 API Examples
 
 ### Get First 5 Topics
+
 ```bash
 curl "http://localhost:3000/topics?page=1&limit=5"
 ```
 
 ### Get Posts for Topic ID 1
+
 ```bash
 curl "http://localhost:3000/topics/1/posts"
 ```
 
 ### Health Check
+
 ```bash
 curl "http://localhost:3000/health"
 ```
@@ -200,4 +221,4 @@ curl "http://localhost:3000/health"
 
 **Status**: ✅ **COMPLETE AND READY FOR PRODUCTION**
 
-The API is fully functional, well-documented, and ready for frontend integration or further development. 
+The API is fully functional, well-documented, and ready for frontend integration or further development.

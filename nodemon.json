@@ -1,5 +1,13 @@
 {
-  "watch": ["app.js", "routes/", "controllers/", "services/", "models/", "middlewares/", "config/"],
+  "watch": [
+    "app.js",
+    "routes/",
+    "controllers/",
+    "services/",
+    "models/",
+    "middlewares/",
+    "config/"
+  ],
   "ext": "js,json",
   "ignore": ["node_modules/", "logs/", "docs/"],
   "env": {

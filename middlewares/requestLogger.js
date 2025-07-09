@@ -15,7 +15,7 @@ const requestLogger = (req, res, next) => {
   const originalEnd = res.end;
   res.end = function (chunk, encoding) {
     const duration = Date.now() - start;
-    
+
     logger.info('Request completed', {
       method: req.method,
       url: req.url,
@@ -30,4 +30,4 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-module.exports = requestLogger; 
+module.exports = requestLogger;

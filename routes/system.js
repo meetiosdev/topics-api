@@ -75,4 +75,4 @@ router.get('/health', (req, res) => {
  */
 router.post('/seed', topicController.seedDatabase);
 
-module.exports = router; 
+module.exports = router;

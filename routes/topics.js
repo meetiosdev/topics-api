@@ -14,9 +14,7 @@ const router = express.Router();
 
 // Validation rules
 const topicIdValidation = [
-  param('topicId')
-    .isUUID(4)
-    .withMessage('Topic ID must be a valid UUID'),
+  param('topicId').isUUID(4).withMessage('Topic ID must be a valid UUID'),
   validate,
 ];
 
@@ -156,4 +154,4 @@ router.get('/:topicId', topicIdValidation, topicController.getTopicById);
  */
 router.get('/:topicId/posts', topicIdValidation, topicController.getTopicPosts);
 
-module.exports = router; 
+module.exports = router;

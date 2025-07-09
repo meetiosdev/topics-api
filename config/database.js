@@ -4,7 +4,7 @@ const logger = require('./logger');
 const connectDB = async () => {
   try {
     const MONGODB_URI = process.env.MONGODB_URI;
-    
+
     if (!MONGODB_URI) {
       throw new Error('MONGODB_URI environment variable is required');
     }
@@ -33,11 +33,10 @@ const connectDB = async () => {
       logger.info('Database connection closed');
       process.exit(0);
     });
-
   } catch (error) {
     logger.error('MongoDB connection error:', error);
     process.exit(1);
   }
 };
 
-module.exports = connectDB; 
+module.exports = connectDB;

@@ -12,9 +12,9 @@ class TopicService {
   async getTopics(page = 1, limit = 10) {
     try {
       logger.info(`Fetching topics - page: ${page}, limit: ${limit}`);
-      
+
       const result = await Topic.getTopicsWithPagination(page, limit);
-      
+
       logger.info(`Successfully fetched ${result.topics.length} topics`);
       return result;
     } catch (error) {
@@ -31,14 +31,14 @@ class TopicService {
   async getTopicById(topicId) {
     try {
       logger.info(`Fetching topic by ID: ${topicId}`);
-      
+
       const topic = await Topic.findByTopicId(topicId);
-      
+
       if (!topic) {
         logger.warn(`Topic not found with ID: ${topicId}`);
         return null;
       }
-      
+
       logger.info(`Successfully fetched topic: ${topic.name}`);
       return topic;
     } catch (error) {
@@ -55,7 +55,7 @@ class TopicService {
   async getTopicPosts(topicId) {
     try {
       logger.info(`Fetching posts for topic ID: ${topicId}`);
-      
+
       const [topic, posts, postCount] = await Promise.all([
         Topic.findByTopicId(topicId),
         Post.getPostsByTopicId(topicId),
@@ -67,8 +67,10 @@ class TopicService {
         return null;
       }
 
-      logger.info(`Successfully fetched ${posts.length} posts for topic: ${topic.name}`);
-      
+      logger.info(
+        `Successfully fetched ${posts.length} posts for topic: ${topic.name}`
+      );
+
       return {
         topic: {
           id: topic.id,
@@ -92,21 +94,18 @@ class TopicService {
   async seedDatabase() {
     try {
       logger.info('Starting database seeding...');
-      
+
       // Clear existing data
-      await Promise.all([
-        Topic.deleteMany({}),
-        Post.deleteMany({}),
-      ]);
-      
+      await Promise.all([Topic.deleteMany({}), Post.deleteMany({})]);
+
       logger.info('Existing data cleared');
-      
+
       // Import and run the seed script
       const seedScript = require('../seed/seedData');
       await seedScript();
-      
+
       logger.info('Database seeding completed successfully');
-      
+
       return {
         success: true,
         message: 'Database seeded successfully',
@@ -119,4 +118,4 @@ class TopicService {
   }
 }
 
-module.exports = new TopicService(); 
+module.exports = new TopicService();

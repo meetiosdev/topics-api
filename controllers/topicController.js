@@ -223,4 +223,4 @@ module.exports = {
   getTopicById,
   getTopicPosts,
   seedDatabase,
-}; 
+};

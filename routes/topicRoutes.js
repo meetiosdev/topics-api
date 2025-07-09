@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { 
-  getTopics, 
-  getTopicPosts, 
+const {
+  getTopics,
+  getTopicPosts,
   getTopicById,
-  seedDatabase 
+  seedDatabase,
 } = require('../controllers/topicController');
 
 // Get all topics with pagination
@@ -19,4 +19,4 @@ router.get('/:id', getTopicById);
 // Seed database endpoint
 router.post('/seed', seedDatabase);
 
-module.exports = router; 
+module.exports = router;

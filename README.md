@@ -27,22 +27,26 @@ A RESTful API for managing topics and posts built with Node.js, Express, and Mon
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/topics-api.git
    cd topics-api
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit `.env` file with your configuration:
+
    ```env
    NODE_ENV=development
    PORT=3000
@@ -52,15 +56,17 @@ A RESTful API for managing topics and posts built with Node.js, Express, and Mon
    ```
 
 4. **Seed the database**
+
    ```bash
    npm run seed
    ```
 
 5. **Start the server**
+
    ```bash
    # Development
    npm run dev
-   
+
    # Production
    npm start
    ```
@@ -68,6 +74,7 @@ A RESTful API for managing topics and posts built with Node.js, Express, and Mon
 ## 📚 API Documentation
 
 Once the server is running, visit:
+
 - **API Documentation**: http://localhost:3000/api-docs
 - **Health Check**: http://localhost:3000/api/health
 
@@ -127,42 +134,47 @@ topicsApi/
 
 ### Topics
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/topics` | Get all topics with pagination |
-| GET | `/api/topics/:topicId` | Get specific topic |
-| GET | `/api/topics/:topicId/posts` | Get posts for a topic |
+| Method | Endpoint                     | Description                    |
+| ------ | ---------------------------- | ------------------------------ |
+| GET    | `/api/topics`                | Get all topics with pagination |
+| GET    | `/api/topics/:topicId`       | Get specific topic             |
+| GET    | `/api/topics/:topicId/posts` | Get posts for a topic          |
 
 ### System
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Health check |
-| POST | `/api/seed` | Seed database |
+| Method | Endpoint      | Description   |
+| ------ | ------------- | ------------- |
+| GET    | `/api/health` | Health check  |
+| POST   | `/api/seed`   | Seed database |
 
 ## 📖 Usage Examples
 
 ### Get Topics with Pagination
+
 ```bash
 curl "http://localhost:3000/api/topics?page=1&limit=10"
 ```
 
 ### Get Specific Topic
+
 ```bash
 curl "http://localhost:3000/api/topics/123e4567-e89b-12d3-a456-426614174000"
 ```
 
 ### Get Posts for Topic
+
 ```bash
 curl "http://localhost:3000/api/topics/123e4567-e89b-12d3-a456-426614174000/posts"
 ```
 
 ### Health Check
+
 ```bash
 curl "http://localhost:3000/api/health"
 ```
 
 ### Seed Database
+
 ```bash
 curl -X POST "http://localhost:3000/api/seed"
 ```
@@ -198,6 +210,7 @@ The application uses Winston for structured logging:
 - **Request Logging**: All API requests with timing
 
 Log files are stored in the `logs/` directory:
+
 - `combined.log`: All logs
 - `error.log`: Error logs only
 
@@ -215,6 +228,7 @@ Log files are stored in the `logs/` directory:
 ### Other Platforms
 
 The application is compatible with:
+
 - Heroku
 - Railway
 - DigitalOcean App Platform
@@ -243,4 +257,4 @@ This project is licensed under the MIT License.
 
 - **v1.0.0**: Initial release with basic CRUD operations
 - **v1.1.0**: Added pagination and UUID support
-- **v1.2.0**: Refactored with clean architecture and SOLID principles 
+- **v1.2.0**: Refactored with clean architecture and SOLID principles

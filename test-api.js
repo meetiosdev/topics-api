@@ -16,10 +16,16 @@ async function testAPI() {
     console.log('2. Testing Get Paginated Topics...');
     const topics = await axios.get(`${BASE_URL}/topics?page=1&limit=3`);
     console.log('✅ Topics Response:');
-    console.log(`   - Total Topics: ${topics.data.data.pagination.totalTopics}`);
-    console.log(`   - Current Page: ${topics.data.data.pagination.currentPage}`);
+    console.log(
+      `   - Total Topics: ${topics.data.data.pagination.totalTopics}`
+    );
+    console.log(
+      `   - Current Page: ${topics.data.data.pagination.currentPage}`
+    );
     console.log(`   - Topics per page: ${topics.data.data.topics.length}`);
-    console.log(`   - First Topic: ${topics.data.data.topics[0].name} (ID: ${topics.data.data.topics[0].id})`);
+    console.log(
+      `   - First Topic: ${topics.data.data.topics[0].name} (ID: ${topics.data.data.topics[0].id})`
+    );
     console.log('');
 
     // Test 3: Get Topic Posts
@@ -28,7 +34,9 @@ async function testAPI() {
     console.log('✅ Topic Posts Response:');
     console.log(`   - Topic: ${topicPosts.data.data.topic.name}`);
     console.log(`   - Post Count: ${topicPosts.data.data.postCount}`);
-    console.log(`   - First Post: "${topicPosts.data.data.posts[0].content.substring(0, 50)}..."`);
+    console.log(
+      `   - First Post: "${topicPosts.data.data.posts[0].content.substring(0, 50)}..."`
+    );
     console.log('');
 
     // Test 4: Get Topic by ID
@@ -71,7 +79,6 @@ async function testAPI() {
     console.log('   - Get Topic by ID: ✅');
     console.log('   - Error Handling: ✅');
     console.log('   - Pagination: ✅');
-
   } catch (error) {
     console.error('❌ Test failed:', error.message);
     if (error.response) {
@@ -81,4 +88,4 @@ async function testAPI() {
 }
 
 // Run the tests
-testAPI(); 
+testAPI();
