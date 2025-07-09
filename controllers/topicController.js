@@ -103,8 +103,38 @@ const getTopicById = async (req, res) => {
   }
 };
 
+// Seed database with sample data
+const seedDatabase = async (req, res) => {
+  try {
+    console.log('Starting database seeding...');
+    
+    // Clear existing data
+    await Topic.deleteMany({});
+    await Post.deleteMany({});
+    console.log('Existing data cleared');
+    
+    // Import and run the seed script
+    const seedScript = require('../seed/seedData');
+    await seedScript();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Database seeded successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Seeding error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to seed database',
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getTopics,
   getTopicPosts,
-  getTopicById
+  getTopicById,
+  seedDatabase
 }; 

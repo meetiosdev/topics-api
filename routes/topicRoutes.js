@@ -3,16 +3,20 @@ const router = express.Router();
 const { 
   getTopics, 
   getTopicPosts, 
-  getTopicById 
+  getTopicById,
+  seedDatabase 
 } = require('../controllers/topicController');
 
-// GET /topics - Get paginated list of topics
+// Get all topics with pagination
 router.get('/', getTopics);
 
-// GET /topics/:id - Get a specific topic by ID
+// Get posts for a specific topic
+router.get('/:id/posts', getTopicPosts);
+
+// Get a specific topic by ID
 router.get('/:id', getTopicById);
 
-// GET /topics/:id/posts - Get posts for a specific topic
-router.get('/:id/posts', getTopicPosts);
+// Seed database endpoint
+router.post('/seed', seedDatabase);
 
 module.exports = router; 
