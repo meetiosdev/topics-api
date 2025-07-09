@@ -70,7 +70,7 @@ async function seedNewDatabase() {
               likes: postData.likes || Math.floor(Math.random() * 1000),
               content: postData.content,
               date: postData.date || new Date().toISOString(),
-              topicId: topicId
+              topicId
             });
             posts.push(post);
           }

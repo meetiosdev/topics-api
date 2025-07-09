@@ -1,33 +1,59 @@
 {
   "name": "topics-api",
   "version": "1.0.0",
-  "description": "A Node.js + MongoDB backend API for topics and posts",
+  "description": "A RESTful API for managing topics and posts with MongoDB",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "seed": "node seed/seedData.js"
+    "dev": "nodemon",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "seed": "node seed/seedData.js",
+    "docs": "swagger-jsdoc -d swaggerDef.js -o swagger.json"
   },
   "keywords": [
     "nodejs",
     "express",
     "mongodb",
     "mongoose",
-    "api"
+    "api",
+    "rest",
+    "topics",
+    "posts"
   ],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.10.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "helmet": "^7.0.0",
-    "mongoose": "^7.5.0",
-    "morgan": "^1.10.0",
-    "uuid": "^11.1.0"
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
-  }
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/topics-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/topics-api/issues"
+  },
+  "homepage": "https://github.com/yourusername/topics-api#readme"
 }

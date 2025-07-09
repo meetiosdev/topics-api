@@ -1,4 +1,36 @@
-const topicService = require('../services/topicService');
+const express = require('express');
+const { param, query } = require('express-validator');
+const topicController = require('../controllers/topicController');
+const validate = require('../middlewares/validation');
+
+const router = express.Router();
+
+/**
+ * @swagger
+ * tags:
+ *   name: Topics
+ *   description: Topic management endpoints
+ */
+
+// Validation rules
+const topicIdValidation = [
+  param('topicId')
+    .isUUID(4)
+    .withMessage('Topic ID must be a valid UUID'),
+  validate,
+];
+
+const paginationValidation = [
+  query('page')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Page must be a positive integer'),
+  query('limit')
+    .optional()
+    .isInt({ min: 1, max: 100 })
+    .withMessage('Limit must be between 1 and 100'),
+  validate,
+];
 
 /**
  * @swagger
@@ -38,33 +70,12 @@ const topicService = require('../services/topicService');
  *                     $ref: '#/components/schemas/Topic'
  *                 pagination:
  *                   $ref: '#/components/schemas/Pagination'
+ *       400:
+ *         description: Invalid pagination parameters
  *       500:
  *         description: Internal server error
  */
-const getTopics = async (req, res, next) => {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-
-    // Validate pagination parameters
-    if (page < 1 || limit < 1 || limit > 100) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid pagination parameters',
-      });
-    }
-
-    const result = await topicService.getTopics(page, limit);
-
-    res.status(200).json({
-      success: true,
-      data: result.topics,
-      pagination: result.pagination,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+router.get('/', paginationValidation, topicController.getTopics);
 
 /**
  * @swagger
@@ -92,32 +103,14 @@ const getTopics = async (req, res, next) => {
  *                   type: boolean
  *                 data:
  *                   $ref: '#/components/schemas/Topic'
+ *       400:
+ *         description: Invalid topic ID format
  *       404:
  *         description: Topic not found
  *       500:
  *         description: Internal server error
  */
-const getTopicById = async (req, res, next) => {
-  try {
-    const { topicId } = req.params;
-
-    const topic = await topicService.getTopicById(topicId);
-
-    if (!topic) {
-      return res.status(404).json({
-        success: false,
-        error: 'Topic not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: topic,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+router.get('/:topicId', topicIdValidation, topicController.getTopicById);
 
 /**
  * @swagger
@@ -154,73 +147,13 @@ const getTopicById = async (req, res, next) => {
  *                         $ref: '#/components/schemas/Post'
  *                     postCount:
  *                       type: number
+ *       400:
+ *         description: Invalid topic ID format
  *       404:
  *         description: Topic not found
  *       500:
  *         description: Internal server error
  */
-const getTopicPosts = async (req, res, next) => {
-  try {
-    const { topicId } = req.params;
+router.get('/:topicId/posts', topicIdValidation, topicController.getTopicPosts);
 
-    const result = await topicService.getTopicPosts(topicId);
-
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        error: 'Topic not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @swagger
- * /api/seed:
- *   post:
- *     summary: Seed the database with topics and posts
- *     tags: [System]
- *     responses:
- *       200:
- *         description: Database seeded successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                 timestamp:
- *                   type: string
- *                   format: date-time
- *       500:
- *         description: Internal server error
- */
-const seedDatabase = async (req, res, next) => {
-  try {
-    const result = await topicService.seedDatabase();
-
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-module.exports = {
-  getTopics,
-  getTopicById,
-  getTopicPosts,
-  seedDatabase,
-}; 
+module.exports = router; 
